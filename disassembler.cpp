@@ -4,7 +4,7 @@ void disassemble()
 {
 	ifstream input; 
 	string filePath;
-	cout << "Enter path to file: ";
+	cout << "Enter path to input binary file: ";
 fileOpening:
 	cin >> filePath;
 	input.open(filePath.c_str(), ifstream::binary);
@@ -20,7 +20,7 @@ fileOpening:
 	ofstream output;
 	string pathToOutput;
 	cout << "Enter path to output file: ";
-	openFile:
+openFile:
 	cin >> pathToOutput;
 	output.open(pathToOutput.c_str(), ifstream::out);
 	if (output.is_open())
@@ -110,6 +110,7 @@ fileOpening:
 		cout << endl <<"Error with file opening! Please, enter path to file again: ";
 		goto openFile;
 	}
+	cout << "Disassembling was succesfully finished!" << endl;
 	input.close();
 	output.close();
 }
