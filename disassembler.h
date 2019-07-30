@@ -8,9 +8,6 @@ This .h file is contain disassembler function for Intel 8080 CPU and for soviet 
 
 #include <map>
 #include <fstream>
-#include <string>
-#include <iostream>
-#include <cstdlib>
 
 using namespace std;
 
@@ -263,6 +260,6 @@ const map <int, string> commandTable = //table with opcodes and their mnemonics
 	{0XEE, "XRI "} 
 };
 
-void disassemble();
+bool disassemble(ifstream& input, ofstream& output);
 
 #endif
