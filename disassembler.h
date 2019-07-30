@@ -10,6 +10,7 @@ This .h file is contain disassembler function for Intel 8080 CPU and for soviet 
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 

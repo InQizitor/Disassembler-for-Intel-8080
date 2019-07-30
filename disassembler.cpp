@@ -2,31 +2,33 @@
 
 void disassemble()
 {
+	system("chcp 1251>nul"); 
 	ifstream input; 
-	string filePath;
-	cout << "Enter path to input binary file: ";
-fileOpening:
-	cin >> filePath;
-	input.open(filePath.c_str(), ifstream::binary);
+	string pathToInput;
+	cout << "Enter path to file: ";
+openInputFile:
+	getline(cin, pathToInput); //getline used because it can read string with spaces
+	input.open(pathToInput.c_str(), ifstream::binary);
 	if (input.is_open())
 	{
-		cout << "File was succesfully opened!" << endl;
+		cout << "Input file was succesfully opened!" << endl;
 	}
 	else
 	{
 		cout << endl << "Error with file opening! Please, enter path to file again: ";
-		goto fileOpening;
+		goto openInputFile;
 	}
 	ofstream output;
 	string pathToOutput;
 	cout << "Enter path to output file: ";
-openFile:
-	cin >> pathToOutput;
+openOutputFile:
+	getline(cin, pathToOutput);
 	output.open(pathToOutput.c_str(), ifstream::out);
 	if (output.is_open())
 	{
+		cout << "Output file was saccesfully opened!" << endl;
 		cout << "Disassembling is in process..." << endl;
-		int opcode, line = 1, addrLil, addrBig, byte1, byte2;
+		int opcode, line = 0, byte1, byte2;
 		while (!input.eof())
 		{
 			opcode = input.get();
@@ -55,6 +57,7 @@ openFile:
 						byte1 = input.get();
 						output << line << ": " << commandTable.at(opcode) << hex << byte1 << endl;
 						byte1 = 0;
+						line++;
 						break;
 					case 0XCD: //commands with address
 					case 0XCC:
@@ -78,12 +81,6 @@ openFile:
 					case 0X2A:
 					case 0X22:
 					case 0X32:
-						addrLil = input.get();
-						addrBig = input.get();
-						output << line << ": " << commandTable.at(opcode) << hex << addrBig << addrLil << endl;
-						addrLil = 0;
-						addrBig = 0;
-						break;
 					case 0X01: //command with two immediate bytes
 					case 0X21:
 					case 0X31:
@@ -92,25 +89,26 @@ openFile:
 						output << line << ": " << commandTable.at(opcode) << hex << byte2 << byte1 << endl;
 						byte1 = 0;
 						byte2 = 0;
+						line += 2;
 						break;
 					default: //commands without any data
 						output << line << ": " << commandTable.at(opcode) << endl;
+						line++;
 				}
 			}
-			catch (out_of_range e) //if there are no such opcode in commandTable map container
+			catch (out_of_range e) //if there is no such opcode in commandTable map container
 			{
 				output << line << ": " << "unknown opcode" << endl;
 			}
-			line++;
 			opcode = 0;
 		}
 	}
 	else
 	{
 		cout << endl <<"Error with file opening! Please, enter path to file again: ";
-		goto openFile;
+		goto openOutputFile;
 	}
-	cout << "Disassembling was succesfully finished!" << endl;
+	cout << "Disassembling has been finished!" << endl;
 	input.close();
 	output.close();
 }
