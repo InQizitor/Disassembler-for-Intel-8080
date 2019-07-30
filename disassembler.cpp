@@ -55,7 +55,7 @@ bool disassemble(ifstream& input, ofstream& output)
 			case 0X2A:
 			case 0X22:
 			case 0X32:
-			case 0X01: //command with two immediate bytes
+			case 0X01: //commands with two immediate bytes
 			case 0X21:
 			case 0X31:
 				byte1 = input.get();
