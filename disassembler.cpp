@@ -31,7 +31,7 @@ bool disassemble(ifstream& input, ofstream& output)
 				byte1 = input.get();
 				output << line << ": " << commandTable.at(opcode) << hex << byte1 << endl;
 				byte1 = 0;
-				line++;
+				line += 2;
 				break;
 			case 0XCD: //commands with address
 			case 0XCC:
@@ -63,7 +63,7 @@ bool disassemble(ifstream& input, ofstream& output)
 				output << line << ": " << commandTable.at(opcode) << hex << byte2 << byte1 << endl;
 				byte1 = 0;
 				byte2 = 0;
-				line += 2;
+				line += 3;
 				break;
 			default: //commands without any data
 				output << line << ": " << commandTable.at(opcode) << endl;
