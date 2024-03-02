@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.22.1)
+project(i8080_disasm CXX)
+add_executable(${PROJECT_NAME})
+target_sources(${PROJECT_NAME} PUBLIC src/disassembler.cpp src/disassembler.hpp src/main.cpp)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
