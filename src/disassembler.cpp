@@ -3,41 +3,9 @@
 #include <functional>
 #include <iterator>
 #include "disassembler.hpp"
+#include "instructions.hpp"
 
-i8008_disasm::Instruction::Instruction(std::uint8_t opcode, std::uint8_t length, std::string mnemonic)
-	:
-	opcode(opcode),
-	length(length),
-	mnemonic(std::move(mnemonic))
-{
-}
-
-std::uint8_t i8008_disasm::Instruction::GetOpcode() const
-{
-	return this->opcode;
-}
-
-std::string_view i8008_disasm::Instruction::GetMnemonic() const
-{
-	return this->mnemonic;
-}
-
-std::uint8_t i8008_disasm::Instruction::GetLength() const
-{
-	return this->length;
-}
-
-bool i8008_disasm::operator<(const Instruction & lhs, const Instruction & rhs)
-{
-	return lhs.GetOpcode() < rhs.GetOpcode();
-}
-
-i8008_disasm::Instruction::operator std::uint8_t() const
-{
-	return GetOpcode();
-}
-
-i8008_disasm::InstructionDictionary::InstructionDictionary()
+i8080_disasm::InstructionDictionary::InstructionDictionary()
 	:
 	//this implementation is not really efficient but it works
 	instructions
@@ -292,7 +260,7 @@ i8008_disasm::InstructionDictionary::InstructionDictionary()
 	std::ranges::sort(instructions);
 }
 
-std::optional<std::reference_wrapper<const i8008_disasm::Instruction>> i8008_disasm::InstructionDictionary::FindInstruction(std::uint8_t opcode) const
+std::optional<std::reference_wrapper<const i8080_disasm::Instruction>> i8080_disasm::InstructionDictionary::FindInstruction(std::uint8_t opcode) const
 {
 	const auto found = std::ranges::lower_bound(instructions, opcode);
 	if (found != std::end(instructions) and found->GetOpcode() == opcode)

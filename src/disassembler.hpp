@@ -10,27 +10,11 @@
 #include <format>
 #include <sstream>
 #include <iomanip>
+#include "instructions.hpp"
 
 
-namespace i8008_disasm
+namespace i8080_disasm
 {
-	class Instruction final
-	{
-	private:
-		std::uint8_t opcode, length;
-		std::string mnemonic;
-
-	public:
-		Instruction(std::uint8_t opcode, std::uint8_t length, std::string mnemonic);
-		std::uint8_t GetOpcode() const;
-		std::string_view GetMnemonic() const;
-		std::uint8_t GetLength() const;
-
-		operator std::uint8_t() const;
-	};
-
-	bool operator<(const Instruction& lhs, const Instruction& rhs);
-
 	class InstructionDictionary final
 	{
 	private:
@@ -54,7 +38,7 @@ namespace i8008_disasm
 			if (foundInstruction)
 			{
 				const Instruction& inst = *foundInstruction;
-				line << inst.GetMnemonic();
+				line << inst.GetMnemonic(std::nullopt);
 				
 				switch (inst.GetLength())
 				{
